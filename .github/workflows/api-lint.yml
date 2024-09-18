@@ -27,7 +27,7 @@ jobs:
       - name: List changed YAML files
         id: list_yaml_files
         run: |
-          changed_files=$(git diff --name-only HEAD origin/dev | grep '\.yaml$')
+          changed_files=$(git diff --name-only HEAD origin/master | grep '\.yaml$')
           if [ -z "$changed_files" ]; then
             echo "No YAML files changed."
             exit 0
@@ -41,5 +41,5 @@ jobs:
         run: |
           for file in ${{ steps.list_yaml_files.outputs.files }}; do
             echo "Linting $file"
-            redocly lint $file --config=.redocly.yaml --format=github-actions
+            redocly lint $file --config=redocly.yaml --format=github-actions
           done
