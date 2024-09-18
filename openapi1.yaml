@@ -42,7 +42,7 @@ paths:
     post:
       summary: Create special events
       description: Creates a new special event for the museum.
-      operationId: createSpecialEvent
+      operationId: getMuseumHours
       tags:
         - Events
       requestBody:
