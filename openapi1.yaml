@@ -13,7 +13,7 @@ info:
 servers:
   - url: "https://redocly.com/_mock/docs/openapi/museum-api"
 paths:
-  /museum-hours:
+  /museum-hours/get:
     get:
       summary: Get museum hours
       description: Get upcoming museum operating hours.
