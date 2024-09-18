@@ -12,6 +12,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 18
+      - name: List files in root directory
+        run: ls -la
       - name: Install Redocly CLI
         run: npm install -g @redocly/cli@latest
       - name: Lint OpenAPI specification
