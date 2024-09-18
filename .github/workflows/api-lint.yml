@@ -12,9 +12,26 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 18
-      - name: List files in root directory
-        run: ls -la
       - name: Install Redocly CLI
         run: npm install -g @redocly/cli@latest
+      
+      # Get list of all changed YAML files in the pull request
+      - name: List changed YAML files
+        id: list_yaml_files
+        run: |
+          changed_files=$(git diff --name-only HEAD^ HEAD | grep '\.yaml$')
+          if [ -z "$changed_files" ]; then
+            echo "No YAML files changed."
+            exit 0
+          fi
+          echo "Changed YAML files:"
+          echo "$changed_files"
+          echo "::set-output name=files::$changed_files"
+
+      # Run linting on each of the changed YAML files
       - name: Lint OpenAPI specification
-        run: redocly lint openapi2.yaml --config=redocly.yaml --format=github-actions
+        run: |
+          for file in ${{ steps.list_yaml_files.outputs.files }}; do
+            echo "Linting $file"
+            redocly lint $file --config=redocly.yaml --format=github-actions
+          done
