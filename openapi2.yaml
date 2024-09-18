@@ -38,7 +38,7 @@ paths:
           $ref: '#/components/responses/BadRequest'
         "404":
           $ref: '#/components/responses/NotFound'
-  /special-events:
+  /special-events/post:
     post:
       summary: Create special events
       description: Creates a new special event for the museum.
