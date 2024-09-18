@@ -9,17 +9,25 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch all history for git diff to work correctly
+      
       - uses: actions/setup-node@v4
         with:
           node-version: 18
+
       - name: Install Redocly CLI
         run: npm install -g @redocly/cli@latest
-      
+
+      # Fetch the branch to compare changes
+      - name: Fetch branch history
+        run: git fetch --all
+
       # Get list of all changed YAML files in the pull request
       - name: List changed YAML files
         id: list_yaml_files
         run: |
-          changed_files=$(git diff --name-only HEAD^ HEAD | grep '\.yaml$')
+          changed_files=$(git diff --name-only HEAD origin/master | grep '\.yaml$')
           if [ -z "$changed_files" ]; then
             echo "No YAML files changed."
             exit 0
